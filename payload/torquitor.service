@@ -1,0 +1,10 @@
+[Unit]
+Description=Web monitor for TORQUE
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/etc/init.d/torquitor
+
+[Install]
+WantedBy=multi-user.target

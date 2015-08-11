@@ -1,0 +1,77 @@
+body{
+	background-color:#AAAAAA;
+}
+h2{
+	margin: 0 5px 5px 5px;
+}
+.fullwidth{
+	display: block;
+	clear: both;
+}
+.roundbox1{
+	background-color: #EEEEEE;
+	border-radius: 25px;
+	padding: 25px;
+}
+.roundbox2{
+	background-color: #FFFFFF;
+	border-radius: 25px;
+	padding: 25px;
+}
+.alignleft {
+	float: left;
+	width:33.33333%;
+	text-align:left;
+}
+.aligncenter {
+	float: left;
+	width:33.33333%;
+	text-align:center;
+}
+.alignright {
+	float: left;
+	width:33.33333%;
+	text-align:right;
+}
+.alignmiddle {
+	position: relative; 
+	top: 50%; 
+	transform: translateY(-50%);
+	margin: 0;
+}
+.margin5
+{
+	margin-top: 1%;
+	margin-bottom: 1%;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+.left{
+	display: inline-block;
+	padding: 1%;
+	float: left;
+}
+.right{
+	display: inline-block;
+	padding: 1%;
+	overflow: hidden;
+	float: left;
+}
+.pbsnode{
+	background-color: #EEEEEE;
+	width: 250px;
+	height: 100px;
+	float: left;
+	border-radius: 25px;
+	margin: 5px;
+	padding: 5px;
+	padding-left: 25px;
+}
+#jobInfo{
+	font-size: 0.7em;
+}
+.jid{
+	text-decoration: underline;
+	color:#0000AA;
+	font-weight: bold;
+}

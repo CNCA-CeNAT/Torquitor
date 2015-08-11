@@ -1,0 +1,76 @@
+#!/bin/bash
+#
+# chkconfig: 35 90 12
+# description: Torquitor server
+#
+# Get function from functions library
+. /etc/init.d/functions
+# Start the service Torquitor
+start() {
+	process=$(ps -ef | grep torkitor | grep -v grep)
+	if [ "$process" ]; then
+		echo
+		torqpid=$(ps -elf | grep torkitor | grep -v grep | awk '{print $4}')
+		echo -e "Service Torquitor is \e[1m\e[31mAlready Running"
+		echo -e "\e[0mTORQUITOR SERVER PID = $torqpid"
+		echo		
+
+	else	
+		source /etc/torquitor/torquitor.conf
+
+		echo
+		printf "STARTING TORQUITOR SERVER... "
+		success $"TORQUITOR server startup"
+		echo
+		python $TORQUITORHOME/torkitor.py &
+		torqpid=$(ps -elf | grep torkitor | grep -v grep | awk '{print $4}')
+		echo TORQUITOR SERVER PID = $torqpid
+		echo
+	fi
+}
+# Restart the service Torquitor
+stop() {
+	echo
+	printf "STOPPING TORQUITOR SERVER... "
+        torqpid=$(ps -elf | grep torkitor | grep -v grep | awk '{print $4}')
+	if [ "$torqpid" ]; then
+		kill $torqpid
+		success $"TORQUITOR server stop"
+		echo -e "\e[0m"
+		echo
+	else
+		echo -e "Service Torquitor is \e[1m\e[31mNot Running"
+		echo -e "\e[0m"
+	fi
+}
+### main logic ###
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        process=$(ps -ef | grep torkitor | grep -v grep)
+	if [ "$process" ]; then
+		echo -e "\e[0m"
+		echo -e "Service Torquitor is \e[1m\e[32mRunning"
+		echo -e "\e[0m"
+	else
+		echo -e "\e[0m"
+		echo -e "Service Torquitor is \e[1m\e[31mNot Running"
+		echo -e "\e[0m"
+	fi
+        ;;
+  restart|reload|condrestart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+exit 0
+
+
