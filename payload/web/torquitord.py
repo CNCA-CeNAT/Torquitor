@@ -32,17 +32,19 @@ while True:
 	pbsnodes = re.split("\n\n", output)
 	pbsdiv = '<div id="pbsnodes" class="fullwidth">\n'
 
-	for n in range(0, len(pbsnodes)):
-		pbsnode = re.split("\n", pbsnodes[n])
+
+	for pbsnode in pbsnodes:
+		pbsnode = re.split("\n", pbsnode)
 		pbsdiv += '<div class="pbsnode">\n'
-		for i in range(0,len(pbsnode)):
-			pbsnode[i] = pbsnode[i].strip()
-			
-			if(re.compile("^cadejos|^zarate").match(pbsnode[i])): pbsdiv += "<h3>"+ pbsnode[i] + "</h3>\n<ul>\n"
-			elif(re.compile("^properties").match(pbsnode[i])): pbsdiv += "<li>" + pbsnode[i].replace("properties", "Queue") + "</li>\n"
-			elif(re.compile("^state").match(pbsnode[i])): pbsdiv += "<li>" + pbsnode[i].replace("state", "Node state") + "</li>\n"
-			elif(re.compile("^jobs").match(pbsnode[i])): pbsdiv += "<li>" + pbsnode[i].replace("jobs", "Jobs") + "</li>\n"
-			else: pbsnode[i] = ""
+		pbsdiv += "<h3>"+ pbsnode.pop(0) + "</h3>\n<ul>\n"
+		for prop in pbsnode:
+			prop = prop.strip()
+		
+			#if(re.compile("^cadejos|^zarate").match(prop)): pbsdiv += "<h3>"+ prop + "</h3>\n<ul>\n"
+			if(re.compile("^properties").match(prop)): pbsdiv += "<li>" + prop.replace("properties", "Queue") + "</li>\n"
+			elif(re.compile("^state").match(prop)): pbsdiv += "<li>" + prop.replace("state", "Node state") + "</li>\n"
+			elif(re.compile("^jobs").match(prop)): pbsdiv += "<li>" + prop.replace("jobs", "Jobs") + "</li>\n"
+			else: prop = ""
 		pbsdiv += '</ul>\n</div>\n'
 	pbsdiv += '</div>\n'
 
@@ -53,22 +55,22 @@ while True:
 	### showq
 	###########
 
-	status, output = commands.getstatusoutput('showq -v')
-	if status != 0 : # if command failed try calling it from diferent sources
-		status, output = commands.getstatusoutput('/usr/local/maui/bin/showq -v')
-	elif status != 0 :
-		status, output = commands.getstatusoutput('$SHOWQHOME/showq -v')
-	elif status != 0 :
-		print("Error: " + status + ": " + output);
+	#status, output = commands.getstatusoutput('showq -v')
+	#if status != 0 : # if command failed try calling it from diferent sources
+	#	status, output = commands.getstatusoutput('/usr/local/maui/bin/showq -v')
+	#elif status != 0 :
+	#	status, output = commands.getstatusoutput('$SHOWQHOME/showq -v')
+	#elif status != 0 :
+	#	print("Error: " + status + ": " + output);
 
-	showq = re.split("\n", output)
+	#showq = re.split("\n", output)
 	
-	for i in range(0, len(showq)):
-		showq[i] = showq[i]+"<br>"
+	#for i in range(0, len(showq)):
+	#	showq[i] = showq[i]+"<br>"
 		#if "gpus" 	in showq[i]: showq[i] = ""
 		
 
-	os.system('echo "' + ''.join(showq) + '" > $TORQUITORHOME/data/showq.txt')
+	#os.system('echo "' + ''.join(showq) + '" > $TORQUITORHOME/data/showq.txt')
 
 	###########
 	### qstat
@@ -101,8 +103,8 @@ while True:
 	####
 	qstat[0] = qstat[0].replace("Time", "$R$", 1) 		#Replace first ocurrence of "Time" for wildcard R
 	qstat[0] = qstat[0].replace("Time", "$E$", 1)		#Replace second ocurrence of "Time" for wildcard E
-	qstat[0] = qstat[0].replace("$E$", "Elapsed_Time", 1)	#Replace wildcard E for "Elapsed_Time"
-	qstat[0] = qstat[0].replace("$R$", "Required_Time", 1)	#Replace wildcard R for "Required_Time"
+	qstat[0] = qstat[0].replace("$E$", "Elapsed-Time", 1)	#Replace wildcard E for "Elapsed_Time"
+	qstat[0] = qstat[0].replace("$R$", "Required-Time", 1)	#Replace wildcard R for "Required_Time"
 
 	#Split table for spaces and tabs and add the <td> tag
 	qstatRow = re.split(" +|\t+", qstat[0])
@@ -165,23 +167,25 @@ while True:
 
 		# Create a hidden div with the job status information, filter its entries and add them to a list
 		modal += '<div id="Job.' + str(qstatRow[0]) + '" class="modal">\n<ul>\n'
-		for j in range(0, len(jobinfo)):
-			jobinfo[j] = jobinfo[j].strip()+"\n"
-			if(re.compile("^Job Id").match(jobinfo[j])): modal += '<li><b>'+jobinfo[j]+'</b></li>'
-			elif (re.compile("^Job_Name").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^Job_Owner").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^job_state").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^queue =").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^Error_Path").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^exec_host").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^Output_Path").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^qtime").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^etime").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^exit_status").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^submit_args").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^start_time").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^comp_time").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
-			elif (re.compile("^total_runtime").match(jobinfo[j])): modal += '<li>'+jobinfo[j]+'</li>'
+		for j in jobinfo:
+			j = j.strip()+"\n"
+			if		(re.compile("^Job Id").match(j)): 		jobid = '<li><b>'+"Job ID: <tt>"+ j[j.find(":")+2:] +'</b></tt></li>'
+			elif	(re.compile("^Job_Name").match(j)): 	jobname = '<li>'+"Job name: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^Job_Owner").match(j)):	jobowner = '<li>'+"Job owner: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^job_state").match(j)):	jobstate = '<li>'+"Job state: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^queue =").match(j)): 		jobqueue = '<li>'+"Queue: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^Error_Path").match(j)):	jobstderr = '<li>'+"stderr file: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^Output_Path").match(j)): 	jobstdout = '<li>'+"stdout file: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^exec_host").match(j)): 	jobhosts = '<li>'+"Execution host(s): <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^qtime").match(j)): 		jobqtime = '<li>'+"Queued time: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^etime").match(j)): 		jobetime = '<li>'+"etime: <tt>"+ j[j.find("=")+2:] +'</tt></li>' #????
+			elif	(re.compile("^exit_status").match(j)): 	jobexitstatus = '<li>'+"Job exit status: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^submit_args").match(j)): 	jobargs = '<li>'+"Submitted arguments: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^start_time").match(j)): 	jobstarttime = '<li>'+"Start time: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^comp_time").match(j)): 	jobcompletedtime = '<li>'+"Completed time: <tt>"+ j[j.find("=")+2:] +'</tt></li>'
+			elif	(re.compile("^total_runtime").match(j)):jobtotaltime = '<li>'+"Total runtime: <tt>"+ j[j.find("=")+2:] + "seconds" + '</tt></li>'
+		
+		modal +=  jobid + jobname + jobowner + jobqueue + jobstate + jobstderr + jobstdout + jobhosts + jobargs + jobqtime + jobetime + jobexitstatus + jobstarttime + jobcompletedtime + jobtotaltime
 		modal += "</ul>\n</div>\n"
 		
 	body += "</tbody>\n"
