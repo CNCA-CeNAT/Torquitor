@@ -56,8 +56,8 @@ function requireData()
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
 		{
-			var response = xmlhttp.responseText.split("$");
-
+			var response = xmlhttp.responseText.split("$@");
+			//alert(response);
 			$("#pbsnodesDiv").html($(response[0]));
 			$("#qstatDiv").html($(response[1]));
 			$("#jobinfoDiv").html($(response[2]));
@@ -121,7 +121,7 @@ $(document).ready(function() {
 		</div>	
 		<div class="alignright" style="height:50px;">
 			<div style="position: relative; top: 50%; transform: translateY(-50%);">
-				<span>Updated every 5 seconds</span><br>
+				<span>Updated every <?php echo intval($refreshrate)/1000; ?> seconds</span><br>
 				<span>Server time : <span id="timestamp"></span></span>
 			</div>
 		</div>

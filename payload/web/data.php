@@ -6,15 +6,15 @@ header("Pragma: no-cache");
 
 echo file_get_contents("data/pbsnodes.txt");
 
-echo "$";
+echo "$@";
 
 echo file_get_contents("data/qstat.txt");
 
-echo "$";
+echo "$@";
 
 echo file_get_contents("data/jobinfo.txt");
 
-echo "$";
+echo "$@";
 
 echo date("Y/m/d - H:i:s");
 
