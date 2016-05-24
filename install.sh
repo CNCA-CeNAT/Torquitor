@@ -11,7 +11,7 @@ fi
 mkdir _torquitortmp
 tar -xf payload.tar.gz -C _torquitortmp
 
-TMPDIR="_torquitortmp/payload"
+TMPDIR="payload"
 WEBDIR="$TMPDIR/web"
 
 # WHERE IS APACHE OR NGINX DOCUMENT ROOT
