@@ -7,9 +7,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# CREATE WORKING DIRECTORIES
-mkdir _torquitortmp
-tar -xf payload.tar.gz -C _torquitortmp
+# SET WORKING DIRECTORIES
 
 TMPDIR="payload"
 WEBDIR="$TMPDIR/web"
@@ -76,8 +74,6 @@ URLDEPARTMENT=http://www.cenat.ac.cr/computacion-avanzada/cnca/cnca-resena
 
 # Set default refresh rate for TORQUITOR web client (in seconds)
 REFRESHRATE=5" >> /etc/torquitor/torquitor.conf
-
-rm -rf _torquitortmp
 
 echo -e "\e[1m\e[32mDONE\e[0m"
 
