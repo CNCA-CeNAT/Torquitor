@@ -1,3 +1,5 @@
+![CNCA logo](http://www.cenat.ac.cr/templates/shaper_mybiz/images/styles/style1/cnca_top.gif)
+
 # Torquitor
 
 ## Synopsis
