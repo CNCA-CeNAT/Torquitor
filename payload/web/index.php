@@ -165,7 +165,7 @@ $(document).ready(function() {
 		<div class="alignright" style="height:50px;">
 			<div style="position: relative; top: 50%; transform: translateY(-50%);">
 				<span>Contact: <a href="mailto:cnca@cenat.ac.cr">cnca@cenat.ac.cr</a></span><br>
-				<a href="">Download torquitor</a>
+				<a href="https://github.com/CNCA-CeNAT/torquitor">Download torquitor</a>
 			</div>
 		</div>
 	</div>
