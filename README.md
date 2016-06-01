@@ -4,11 +4,11 @@
 
 ## Synopsis
 
-`Torquitor` is a simple yet effective web interface for Adaptative Computing's Torque. It uses a python daemon to obtain the information from pbsnodes and qstat and displays the information in a web interface through a php service.
+`Torquitor` is a simple yet effective web interface for Adaptative Computing's Torque. It uses a python daemon to obtain load data from pbsnodes and qstat and displays the information in a web interface through a php service.
 
 ## Motivation
 
-The pbsnodes and qstat tools display very useful information, yet their console display is not quick or comfortable to use, the alternative web interface shows information from every node, and every running job in a clear, easy to the eye web interface available for every user of the cluster.
+The pbsnodes and qstat tools display very useful information, yet their console display is not quick or comfortable to use, the alternative web interface, provided by `Torquitor` shows information from every node, and every running job in a clear, easy to the eye, web interface available for every user of the cluster.
 
 ## Installation
 
