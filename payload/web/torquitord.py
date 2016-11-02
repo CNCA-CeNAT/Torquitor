@@ -41,7 +41,13 @@ while True:
 			prop = prop.strip()
 		
 			#if(re.compile("^cadejos|^zarate").match(prop)): pbsdiv += "<h3>"+ prop + "</h3>\n<ul>\n"
-			if(re.compile("^properties").match(prop)): pbsdiv += "<li>" + prop.replace("properties", "Queue") + "</li>\n"
+			if(re.compile("^properties").match(prop)): 
+				prop = prop.replace("properties = ","")
+				queueNames = prop.split(",")
+				pbsdiv += "<li>" + "Queue(s):" + "\n<ul>"
+				for qName in queueNames :
+					pbsdiv += "<li>" + qName + "</li>\n"
+				pbsdiv += "</ul></li>\n"
 			elif(re.compile("^state").match(prop)): pbsdiv += "<li>" + prop.replace("state", "Node state") + "</li>\n"
 			elif(re.compile("^jobs").match(prop)): pbsdiv += "<li>" + prop.replace("jobs", "Jobs") + "</li>\n"
 			else: prop = ""
